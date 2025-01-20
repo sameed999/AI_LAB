@@ -1,0 +1,55 @@
+#Task 01 
+from collections import deque
+
+def bfs(graph, start, goal):
+    open_list = deque([start])  # Nodes to be explored
+    closed_list = []           # Nodes already explored
+
+    while open_list:
+        current = open_list.popleft()
+        closed_list.append(current)
+
+        if current == goal:
+            break
+
+        for neighbor in graph[current]:
+            if neighbor not in open_list and neighbor not in closed_list:
+                open_list.append(neighbor)
+
+    return closed_list
+
+# Define the graph as an adjacency list
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': ['F'],
+    'F': []
+}
+
+# Perform BFS
+result = bfs(graph, 'A', 'F')
+print("Closed List (Visited Nodes):", result)
+
+#Task 02 
+def dfs(graph, start, goal, visited=None):
+    if visited is None:
+        visited = []
+
+    visited.append(start)
+
+    if start == goal:
+        return visited
+
+    for neighbor in graph[start]:
+        if neighbor not in visited:
+            result = dfs(graph, neighbor, goal, visited)
+            if result:
+                return result
+
+    return visited
+
+# Perform DFS
+result = dfs(graph, 'A', 'F')
+print("Closed List (Visited Nodes):", result)
